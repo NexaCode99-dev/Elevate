@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Profile | Elevate</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f2f5f7;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .profile-container { width: 100%; max-width: 600px; }
+    .profile-card {
+      background-color: #fff;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      padding: 25px;
+      text-align: center;
+    }
+    .profile-image img {
+      width: 120px; height: 120px;
+      border-radius: 50%; object-fit: cover;
+      margin-bottom: 20px;
+      border: 3px solid #4e73df;
+    }
+    .profile-info h2 { font-size: 24px; margin-bottom: 8px; }
+    .profile-info p { font-size: 16px; color: #555; margin: 4px 0; }
+    .subjects, .skills { margin-top: 15px; }
+    .subjects span, .skills .tag {
+      display: inline-block;
+      background-color: #e0e7ff;
+      color: #3742fa;
+      padding: 6px 10px;
+      border-radius: 20px;
+      margin: 5px 5px 0 0;
+      font-size: 14px;
+    }
+    .bio { margin-top: 20px; font-style: italic; color: #666; }
+    .edit-btn, .save-btn, .xp-btn {
+      margin-top: 20px;
+      background-color: #4e73df;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 15px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .edit-btn:hover, .save-btn:hover, .xp-btn:hover { background-color: #375ab7; }
+    .hidden { display: none; }
+    /* Form */
+    .edit-form input, .edit-form textarea {
+      width: 100%; padding: 8px; margin: 8px 0;
+      border: 1px solid #ccc; border-radius: 8px;
+    }
+    .edit-form label { font-weight: bold; display: block; margin-top: 10px; text-align: left; }
+    .edit-form small { color: gray; font-size: 12px; }
+    /* Gamification */
+    .gamification { margin-top: 25px; text-align: left; }
+    .progress-bar {
+      width: 100%; height: 20px;
+      background: #eee; border-radius: 10px;
+      margin: 10px 0;
+    }
+    .progress {
+      height: 100%; width: 0;
+      background: linear-gradient(90deg, #4e73df, #1cc88a);
+      border-radius: 10px; transition: width 0.3s;
+    }
+    .achievements { margin-top: 15px; }
+    .achievement {
+      background: #f0f4ff;
+      padding: 8px; border-radius: 8px;
+      margin: 5px 0;
+      font-size: 14px; color: #3742fa;
+    }
+  </style>
+</head>
+<body>
+  <div class="profile-container">
+    <div class="profile-card">
+      <div class="profile-image">
+        <img id="profilePic" src="https://i.imgur.com/3JxQ1zF.png" alt="Profile Picture" />
+      </div>
+
+      <!-- Profile Display -->
+      <div class="profile-info" id="profileView">
+        <h2 id="name">Jane Doe</h2>
+        <p id="age">Age: 15</p>
+        <p id="grade">Grade: 10th</p>
+        <p id="school">School: Sunshine High School</p>
+        <div class="subjects"><strong>Subjects:</strong> <span id="subjectsList">Math, Science, Computer Science</span></div>
+        <div class="skills"><strong>Skills:</strong> <span id="skillsList">Python, HTML, CSS, Git</span></div>
+        <p class="bio" id="bio">I love learning new things and building cool stuff! Currently working on my own student productivity app.</p>
+      </div>
+
+      <!-- Profile Edit Form -->
+      <div class="edit-form hidden" id="profileEdit">
+        <label>Name: <input type="text" id="editName"></label>
+        <label>Age: <input type="number" id="editAge"></label>
+        <label>Grade: <input type="text" id="editGrade"></label>
+        <label>School: <input type="text" id="editSchool"></label>
+        <label>Subjects (comma separated): <input type="text" id="editSubjects"></label>
+        <label>Skills (comma separated): <input type="text" id="editSkills"></label>
+        <label>Bio: <textarea id="editBio"></textarea></label>
+        <label>Profile Picture URL: <input type="text" id="editPic"></label>
+      </div>
+
+      <button class="edit-btn" id="editBtn">Edit Profile</button>
+      <button class="save-btn hidden" id="saveBtn">Save Profile</button>
+
+      <!-- Gamification Section -->
+      <div class="gamification">
+        <h3>🎮 Gamification</h3>
+        <p><strong>Level:</strong> <span id="level">1</span></p>
+        <p><strong>XP:</strong> <span id="xp">0</span> / 100</p>
+        <div class="progress-bar"><div class="progress" id="progress"></div></div>
+        <button class="xp-btn" onclick="gainXP(20)">+ Gain XP</button>
+        <div class="achievements">
+          <h4>🏆 Achievements</h4>
+          <div id="achievementsList"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const profileView = document.getElementById("profileView");
+    const profileEdit = document.getElementById("profileEdit");
+    const editBtn = document.getElementById("editBtn");
+    const saveBtn = document.getElementById("saveBtn");
+
+    const profilePic = document.getElementById("profilePic");
+    const nameEl = document.getElementById("name");
+    const ageEl = document.getElementById("age");
+    const gradeEl = document.getElementById("grade");
+    const schoolEl = document.getElementById("school");
+    const subjectsList = document.getElementById("subjectsList");
+    const skillsList = document.getElementById("skillsList");
+    const bioEl = document.getElementById("bio");
+
+    const editName = document.getElementById("editName");
+    const editAge = document.getElementById("editAge");
+    const editGrade = document.getElementById("editGrade");
+    const editSchool = document.getElementById("editSchool");
+    const editSubjects = document.getElementById("editSubjects");
+    const editSkills = document.getElementById("editSkills");
+    const editBio = document.getElementById("editBio");
+    const editPic = document.getElementById("editPic");
+
+    // Gamification elements
+    let xp = 0, level = 1;
+    const xpEl = document.getElementById("xp");
+    const levelEl = document.getElementById("level");
+    const progress = document.getElementById("progress");
+    const achievementsList = document.getElementById("achievementsList");
+
+    // Load saved profile if available
+    window.onload = () => {
+      if(localStorage.getItem("profileData")){
+        applyProfile(JSON.parse(localStorage.getItem("profileData")));
+      }
+      if(localStorage.getItem("gameData")){
+        const g = JSON.parse(localStorage.getItem("gameData"));
+        xp = g.xp; level = g.level;
+        updateGamification();
+      }
+    }
+
+    editBtn.onclick = () => {
+      editName.value = nameEl.textContent;
+      editAge.value = ageEl.textContent.replace("Age: ","");
+      editGrade.value = gradeEl.textContent.replace("Grade: ","");
+      editSchool.value = schoolEl.textContent.replace("School: ","");
+      editSubjects.value = subjectsList.textContent;
+      editSkills.value = skillsList.textContent;
+      editBio.value = bioEl.textContent;
+      editPic.value = profilePic.src;
+
+      profileView.classList.add("hidden");
+      profileEdit.classList.remove("hidden");
+      editBtn.classList.add("hidden");
+      saveBtn.classList.remove("hidden");
+    };
+
+    saveBtn.onclick = () => {
+      const data = {
+        name: editName.value,
+        age: editAge.value,
+        grade: editGrade.value,
+        school: editSchool.value,
+        subjects: editSubjects.value,
+        skills: editSkills.value,
+        bio: editBio.value,
+        pic: editPic.value
+      };
+      applyProfile(data);
+      localStorage.setItem("profileData", JSON.stringify(data));
+
+      profileView.classList.remove("hidden");
+      profileEdit.classList.add("hidden");
+      editBtn.classList.remove("hidden");
+      saveBtn.classList.add("hidden");
+    };
+
+    function applyProfile(data){
+      nameEl.textContent = data.name;
+      ageEl.textContent = "Age: " + data.age;
+      gradeEl.textContent = "Grade: " + data.grade;
+      schoolEl.textContent = "School: " + data.school;
+      subjectsList.textContent = data.subjects;
+      skillsList.textContent = data.skills;
+      bioEl.textContent = data.bio;
+      profilePic.src = data.pic;
+    }
+
+    // Gamification
+    function gainXP(amount){
+      xp += amount;
+      if(xp >= 100){
+        xp -= 100;
+        level++;
+        addAchievement(`🎉 Reached Level ${level}`);
+      }
+      updateGamification();
+      localStorage.setItem("gameData", JSON.stringify({xp, level}));
+    }
+
+    function updateGamification(){
+      xpEl.textContent = xp;
+      levelEl.textContent = level;
+      progress.style.width = xp + "%";
+    }
+
+    function addAchievement(text){
+      const div = document.createElement("div");
+      div.className = "achievement";
+      div.textContent = text;
+      achievementsList.appendChild(div);
+    }
+  </script>
+</body>
+</html>

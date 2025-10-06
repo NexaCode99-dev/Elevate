@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses | ELevate</title>
+</head>
+<body>
+    <div class="courses-dashboard">
+  <a href="WebDEV.html" class="course-card">
+    <div class="card-header">
+      <div class="course-icon">💻</div>
+      <div class="course-status">In Progress</div>
+    </div>
+    <div class="course-name">Web Development </div>
+    
+    
+    <div class="course-badge free">Free</div>
+    <div class="course-desc">Learn HTML, CSS & JS from scratch. [ but let me learn first ! ]</div>
+    <div class="progress-bar">
+      <div class="progress" style="width: 40%;"></div>
+    </div>
+    <div class="progress-text">60% incomplete</div>
+  </a>
+
+  <a href="Ai.html" class="course-card">
+    <div class="card-header">
+      <div class="course-icon">📊</div>
+      <div class="course-status">Completed</div>
+    </div>
+    <div class="course-name">AI & Machine Learning</div>
+    <div class="course-badge paid">Paid</div>
+    <div class="course-desc">Python, Pandas, NumPy & more.</div>
+    <div class="progress-bar">
+      <div class="progress" style="width: 100%;"></div>
+    </div>
+    <div class="progress-text">0% completed</div>
+  </a>
+
+  <a href="Academics.html" class="course-card">
+    <div class="card-header">
+      <div class="course-icon">&copy;</div>
+      <div class="course-status">In Progress</div>
+    </div>
+    <div class="course-name">Academics</div>
+    <div class="course-badge free">Free</div>
+    <div class="course-desc">Design stunning apps & websites.</div>
+    <div class="progress-bar">
+      <div class="progress" style="width: 65%;"></div>
+    </div>
+    <div class="progress-text">0% completed</div>
+  </a>
+
+</div>
+
+<style>
+
+    .courses-dashboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 0 20px 40px;
+}
+
+.course-card {
+  background: linear-gradient(135deg, #4a90e2, #010808);
+  color: white;
+  padding: 20px;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.course-card:hover {
+  transform: translateY(-5px) scale(1.03);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+/* Card Header: Icon + Status */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.course-icon {
+  font-size: 36px;
+}
+
+.course-status {
+  background: rgba(255,255,255,0.2);
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+/* Course Name & Desc */
+.course-name {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.course-desc {
+  font-size: 14px;
+  opacity: 0.9;
+  margin-bottom: 12px;
+}
+
+/* Progress Bar */
+.progress-bar {
+  background: rgba(255,255,255,0.2);
+  border-radius: 6px;
+  height: 8px;
+  width: 100%;
+  margin-bottom: 6px;
+}
+
+.progress {
+  background: #ff9800;
+  height: 100%;
+  border-radius: 6px;
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  font-size: 12px;
+  text-align: right;
+  opacity: 0.8;
+}
+
+/* Dark Mode tweaks */
+body.dark .course-card {
+  background: linear-gradient(135deg, #1c1c1c, #000);
+  color: #eee;
+}
+
+body.dark .course-status {
+  background: rgba(255,255,255,0.1);
+}
+
+body.dark .progress-bar {
+  background: rgba(255,255,255,0.1);
+}
+
+body.dark .progress {
+  background: #ffb74d;
+}
+
+body.dark .section-title {
+  color: #eee;
+}
+
+    .course-badge {
+  display: inline-block;
+  padding: 3px 8px;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.course-badge.free {
+  background-color: #4caf50; /* Green for Free */
+  color: white;
+}
+
+.course-badge.paid {
+  background-color: #f44336; /* Red for Paid */
+  color: white;
+}
+
+/* Dark mode tweaks */
+body.dark .course-badge.free {
+  background-color: #81c784;
+  color: #000;
+}
+
+body.dark .course-badge.paid {
+  background-color: #e57373;
+  color: #000;
+}
+
+</style>
+
+</body>
+</html>
