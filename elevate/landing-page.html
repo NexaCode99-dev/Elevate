@@ -101,6 +101,81 @@
     text-align: center;
   }
 }
+/* ====== RESPONSIVE DESIGN FIX ====== */
+@media (max-width: 768px) {
+  nav {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px 20px;
+  }
+
+  nav ul {
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    text-align: left;
+    padding-left: 10px;
+  }
+
+  header {
+    padding: 50px 20px;
+  }
+
+  header h1 {
+    font-size: 1.8rem;
+    line-height: 2.2rem;
+  }
+
+  header p {
+    font-size: 1rem;
+  }
+
+  .cta-btn {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+
+  section {
+    padding: 40px 15px;
+  }
+
+  .features {
+    grid-template-columns: 1fr;
+  }
+
+  .feature-card {
+    margin-bottom: 20px;
+  }
+
+  .modal-content {
+    width: 90%;
+    padding: 20px;
+  }
+
+  footer {
+    font-size: 0.9rem;
+    padding: 15px;
+  }
+}
+
+/* For very small phones */
+@media (max-width: 480px) {
+  header h1 {
+    font-size: 1.5rem;
+  }
+
+  header p {
+    font-size: 0.9rem;
+  }
+
+  nav h2 {
+    font-size: 1.3rem;
+  }
+
+  .cta-btn {
+    width: 100%;
+  }
+}
 
 
   </style>
@@ -277,5 +352,6 @@
     });
   }
 </script>
+
 
 
