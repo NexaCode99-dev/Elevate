@@ -102,27 +102,72 @@ nav ul li a:hover {
 }
 
 /* Portfolio */
+/* Portfolio Section */
 .portfolio {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
   gap: 25px;
-  margin-top: 40px;
+  margin-top: 50px;
 }
+
 .portfolio-item {
   background: white;
   border-radius: 15px;
   box-shadow: 0 6px 20px rgba(0,0,0,0.1);
   overflow: hidden;
-  transition: 0.3s;
-  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
 }
-.portfolio-item:hover {
-  transform: translateY(-5px);
-}
+
 .portfolio-item img {
   width: 100%;
   height: 180px;
   object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.portfolio-item:hover img {
+  transform: scale(1.05);
+}
+
+.card-content {
+  padding: 20px;
+  text-align: center;
+}
+
+.card-content h3 {
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+}
+
+.card-content p {
+  color: #555;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
+.view-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background: #4a90e2;
+  color: white;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: 0.3s;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.portfolio-item:hover .view-btn {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.view-btn:hover {
+  background: #357abd;
+}
+
+  
 }
 .portfolio-item h3 {
   padding: 15px;
@@ -285,31 +330,54 @@ footer {
 
 
   <!-- Portfolio Section -->
-  <section id="portfolio">
-    <h2 style="text-align:center; margin-bottom:40px;">My Work</h2>
-    <div class="portfolio">
-      <div class="portfolio-item">
-        <img src="images/project1.jpg" alt="Project 1">
+ <!-- Portfolio Section -->
+<section id="portfolio">
+  <h2 style="text-align:center; margin-bottom:40px;">My Work</h2>
+  <div class="portfolio">
+    <div class="portfolio-item">
+      <img src="images/project1.jpg" alt="Project 1">
+      <div class="card-content">
         <h3>Landing Page for Coffee Shop</h3>
-        <div class="overlay"><a href="#">View Project</a></div>
-      </div>
-      <div class="portfolio-item">
-        <img src="images/project2.jpg" alt="Project 2">
-        <h3>Portfolio Website for Designer</h3>
-        <div class="overlay"><a href="#">View Project</a></div>
-      </div>
-      <div class="portfolio-item">
-        <img src="images/project3.jpg" alt="Project 3">
-        <h3>E-commerce Website for Local Store</h3>
-        <div class="overlay"><a href="#">View Project</a></div>
-      </div>
-      <div class="portfolio-item">
-        <img src="images/project4.jpg" alt="Project 4">
-        <h3>Startup Landing Page</h3>
-        <div class="overlay"><a href="#">View Project</a></div>
+        <a href="#" class="view-btn">View Project</a>
       </div>
     </div>
-  </section>
+
+    <div class="portfolio-item">
+      <img src="images/project2.jpg" alt="Project 2">
+      <div class="card-content">
+        <h3>Portfolio Website for Designer</h3>
+        <a href="#" class="view-btn">View Project</a>
+      </div>
+    </div>
+
+    <div class="portfolio-item">
+      <img src="images/project3.jpg" alt="Project 3">
+      <div class="card-content">
+        <h3>E-commerce Website for Local Store</h3>
+        <a href="#" class="view-btn">View Project</a>
+      </div>
+    </div>
+
+    <div class="portfolio-item">
+      <img src="images/project4.jpg" alt="Project 4">
+      <div class="card-content">
+        <h3>Startup Landing Page</h3>
+        <a href="#" class="view-btn">View Project</a>
+      </div>
+    </div>
+
+    <!-- Featured Project (Elevate) -->
+    <div class="portfolio-item">
+      <img src="images/Elevate-preview.png" alt="Elevate Preview">
+      <div class="card-content">
+        <h3>📱 Elevate</h3>
+        <p>Gamified student productivity app with AI & Firebase integration.</p>
+        <a href="Elevate/landing-page.html" target="_blank" class="view-btn">View Project</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 
   <!-- Featured Project -->
   <section id="projects" class="featured-project">
@@ -345,6 +413,7 @@ footer {
 
 </body>
 </html>
+
 
 
 
