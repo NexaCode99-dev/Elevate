@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Velvet Bean | Premium Coffee Experience</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; font-family:'Roboto', sans-serif; }
+  body { background:#f4f4f4; color:#333; line-height:1.6; }
+  a { text-decoration:none; color: inherit; }
+  img { max-width:100%; border-radius:10px; }
+
+  /* Navbar */
+  nav { display:flex; justify-content:space-between; align-items:center; padding:20px 40px; background:#6f4e37; color:white; }
+  nav h2 { font-size:1.8rem; }
+  nav ul { display:flex; gap:20px; list-style:none; }
+  nav ul li a { color:white; font-weight:500; transition:0.3s; }
+  nav ul li a:hover { color:#ffca28; }
+
+  /* Hero */
+  .hero { text-align:center; padding:60px 20px; background: linear-gradient(135deg,#6f4e37,#8b5e3c); color:white; }
+  .hero h1 { font-size:2.5rem; margin-bottom:15px; }
+  .hero p { font-size:1.2rem; margin-bottom:20px; }
+  .hero .cta-btn { padding:12px 25px; font-size:1rem; border-radius:25px; border:none; background:#ffca28; color:#6f4e37; font-weight:bold; cursor:pointer; transition:0.3s; }
+  .hero .cta-btn:hover { background:#ffc107; }
+
+  /* Sections */
+  section { padding:60px 20px; max-width:1000px; margin:auto; }
+  h2 { text-align:center; margin-bottom:40px; font-size:2rem; }
+
+  /* Menu */
+  .menu { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:25px; }
+  .menu-item { background:white; border-radius:15px; overflow:hidden; box-shadow:0 6px 15px rgba(0,0,0,0.1); transition:0.3s; text-align:center; padding-bottom:15px; }
+  .menu-item:hover { transform:translateY(-5px); }
+  .menu-item img { height:150px; object-fit:cover; }
+  .menu-item h3 { margin:15px 0 5px; }
+  .menu-item p { font-weight:bold; color:#6f4e37; }
+
+  /* Featured */
+  .featured { background:white; border-radius:15px; text-align:center; padding:30px; box-shadow:0 6px 20px rgba(0,0,0,0.1); margin-bottom:40px; }
+  .featured img { width:100%; height:200px; object-fit:cover; margin-bottom:15px; border-radius:10px; }
+  .featured h3 { color:#6f4e37; margin-bottom:10px; }
+  .featured p { color:#444; }
+
+  /* Order Form */
+  .order-form { background:white; padding:30px; border-radius:15px; box-shadow:0 6px 15px rgba(0,0,0,0.1); max-width:500px; margin:20px auto; }
+  .order-form input, .order-form select, .order-form textarea { width:100%; padding:12px; margin:10px 0; border:1px solid #ccc; border-radius:8px; }
+  .order-form button { padding:12px 20px; border:none; border-radius:25px; background:#6f4e37; color:white; font-weight:bold; cursor:pointer; transition:0.3s; }
+  .order-form button:hover { background:#ffca28; color:#6f4e37; }
+
+  /* About */
+  .about { background:#8b5e3c; color:white; border-radius:15px; text-align:center; padding:30px; }
+  .about p { max-width:800px; margin:auto; color:#fffdd0; }
+
+  /* Contact */
+  .contact { text-align:center; }
+  .contact a { display:inline-block; margin:10px; padding:12px 25px; background:#ffca28; color:#6f4e37; font-weight:bold; border-radius:30px; transition:0.3s; }
+  .contact a:hover { background:#ffc107; transform:translateY(-3px); }
+
+  /* Footer */
+  footer { text-align:center; padding:20px; background:#6f4e37; color:white; margin-top:50px; }
+
+  @media(max-width:768px) {
+    .hero h1 { font-size:2rem; }
+    .hero p { font-size:1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav>
+  <h2>Velvet Bean</h2>
+  <ul>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#order">Order</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero">
+  <h1>Welcome to Velvet Bean</h1>
+  <p>Premium coffee experience, right at your fingertips ☕️</p>
+  <button class="cta-btn" onclick="document.getElementById('order').scrollIntoView({behavior:'smooth'})">Order Now</button>
+</section>
+
+<!-- Menu Section -->
+<section id="menu">
+  <h2>Our Menu</h2>
+  <div class="menu">
+    <div class="menu-item">
+      <img src="images/coffee1.jpg" alt="Espresso">
+      <h3>Espresso</h3>
+      <p>$2.50</p>
+    </div>
+    <div class="menu-item">
+      <img src="images/coffee2.jpg" alt="Cappuccino">
+      <h3>Cappuccino</h3>
+      <p>$3.50</p>
+    </div>
+    <div class="menu-item">
+      <img src="images/coffee3.jpg" alt="Latte">
+      <h3>Latte</h3>
+      <p>$3.00</p>
+    </div>
+    <div class="menu-item">
+      <img src="images/coffee4.jpg" alt="Mocha">
+      <h3>Mocha</h3>
+      <p>$3.75</p>
+    </div>
+  </div>
+</section>
+
+<!-- Featured Item -->
+<section class="featured">
+  <img src="images/featured-coffee.jpg" alt="Featured Coffee">
+  <h3>☕ Featured: Caramel Macchiato</h3>
+  <p>A creamy caramel macchiato to brighten your day. Only $4.00</p>
+</section>
+
+<!-- Order Section -->
+<section id="order">
+  <h2>Place Your Order</h2>
+  <form class="order-form">
+    <input type="text" placeholder="Your Name" required>
+    <input type="email" placeholder="Email" required>
+    <input type="text" placeholder="Address" required>
+    <select>
+      <option>Select Coffee</option>
+      <option>Espresso - $2.50</option>
+      <option>Cappuccino - $3.50</option>
+      <option>Latte - $3.00</option>
+      <option>Mocha - $3.75</option>
+      <option>Caramel Macchiato - $4.00</option>
+    </select>
+    <input type="number" placeholder="Quantity" min="1" required>
+    <button type="submit">Place Order</button>
+  </form>
+</section>
+
+<!-- About Section -->
+<section id="about" class="about">
+  <h2>About Us</h2>
+  <p>Velvet Bean brings the finest coffee experience directly to your fingertips. We focus on quality, flavor, and creating a cozy online presence for our coffee lovers. Every cup is crafted with care, just like we craft our websites.</p>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="contact">
+  <h2>Contact Us</h2>
+  <a href="mailto:coffee@cafedelight.com">📧 Gmail</a>
+  <a href="https://wa.me/your-number" target="_blank">💬 WhatsApp</a>
+  <a href="https://instagram.com/yourusername" target="_blank">📸 Instagram</a>
+</section>
+
+<footer>
+  <p>&copy; 2025 Velvet Bean | Crafted by NexaCode</p>
+</footer>
+
+</body>
+</html>
