@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>NexaStore — E-Commerce Demo (with Firebase)</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+<!-- FIREBASE SDKs -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+<style>
+  /* ---------- RESET & BASE ---------- */
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:'Roboto',sans-serif;
+    background:#f4f6f9;
+    color:#222;
+    line-height:1.4;
+  }
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  .container{max-width:1100px;margin:0 auto;padding:18px;}
+
+  /* ---------- NAV ---------- */
+  header.site-header{
+    background:#0d1117;color:#fff;position:sticky;top:0;z-index:1000;
+    box-shadow:0 2px 10px rgba(0,0,0,0.08);
+  }
+  .topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;}
+  .brand{font-weight:700;letter-spacing:1px;font-size:1.15rem;}
+  .nav-actions{display:flex;gap:12px;align-items:center;}
+  .search{background:#111316;border:1px solid rgba(255,255,255,0.04);padding:6px 10px;border-radius:8px;color:#ddd}
+  .cart-btn{background:#ffca28;color:#0d1117;padding:8px 12px;border-radius:10px;font-weight:700;cursor:pointer;border:none}
+  .cart-count{background:#ff4757;color:#fff;border-radius:999px;padding:2px 7px;font-size:0.8rem;margin-left:6px}
+
+  /* ---------- HERO ---------- */
+  .hero{background:linear-gradient(135deg,#0d1117,#161b22);color:#fff;padding:40px 18px;border-radius:10px;margin:18px 0;display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+  .hero-left{flex:1;min-width:240px}
+  .hero h1{font-size:1.6rem;margin-bottom:8px}
+  .hero p{color:#c9d1d9;margin-bottom:12px}
+  .hero .cta{background:#ffca28;color:#0d1117;padding:10px 16px;border-radius:10px;font-weight:700;border:none;cursor:pointer}
+
+  .hero-right{width:220px;min-width:200px;border-radius:8px;overflow:hidden}
+  .hero-right img{height:140px;object-fit:cover}
+
+  /* ---------- GRID ---------- */
+  .section-title{display:flex;align-items:center;justify-content:space-between;margin:22px 0}
+  .filters{display:flex;gap:8px;flex-wrap:wrap}
+  .filter-btn{padding:8px 12px;border-radius:8px;border:1px solid #e6e9ee;background:#fff;cursor:pointer}
+
+  .products{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:12px}
+  .card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 6px 20px rgba(15,20,30,0.06);transition:transform .18s ease,box-shadow .18s ease;display:flex;flex-direction:column}
+  .card:hover{transform:translateY(-6px);box-shadow:0 12px 30px rgba(15,20,30,0.08)}
+  .card .media{height:150px;overflow:hidden}
+  .card .media img{width:100%;height:100%;object-fit:cover}
+  .card .body{padding:12px;flex:1;display:flex;flex-direction:column;justify-content:space-between}
+  .card h3{font-size:1rem;margin-bottom:8px}
+  .price{font-weight:700;color:#4a90e2;margin-bottom:10px}
+  .card .actions{display:flex;gap:8px}
+
+  .btn-outline{padding:8px 10px;border-radius:8px;border:1px solid #4a90e2;background:transparent;color:#4a90e2;cursor:pointer;font-weight:700}
+  .btn-primary{padding:8px 10px;border-radius:8px;border:none;background:#4a90e2;color:#fff;cursor:pointer;font-weight:700}
+
+  /* ---------- CART PANEL ---------- */
+  .cart-panel{
+    position:fixed;right:18px;top:80px;background:#fff;width:360px;max-width:92vw;border-radius:12px;box-shadow:0 16px 40px rgba(0,0,0,0.15);padding:16px;z-index:1200;
+    transform:translateY(0);display:none;flex-direction:column;gap:12px;
+  }
+  .cart-panel.open{display:flex}
+  .cart-item{display:flex;gap:12px;align-items:center;border-bottom:1px dashed #eee;padding:8px 0}
+  .cart-item img{width:56px;height:56px;object-fit:cover;border-radius:8px}
+  .cart-item .meta{flex:1}
+  .qty-controls{display:flex;gap:6px;align-items:center}
+  .small-btn{padding:6px 8px;border-radius:6px;border:1px solid #ccc;background:#fff;cursor:pointer}
+
+  /* ---------- MODAL ---------- */
+  .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.45);display:none;align-items:center;justify-content:center;z-index:1300}
+  .modal-backdrop.open{display:flex}
+  .modal{width:96%;max-width:760px;background:#fff;border-radius:12px;padding:16px}
+  .modal .top{display:flex;gap:12px}
+  .modal .top img{width:220px;height:140px;object-fit:cover;border-radius:8px}
+  .modal .info{flex:1}
+  .close-x{background:#eee;border:none;padding:6px 8px;border-radius:8px;cursor:pointer}
+
+  /* ---------- CHECKOUT / ORDER CONFIRM ---------- */
+  .checkout{background:#fff;padding:14px;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,0.06)}
+  .form-row{margin-bottom:10px}
+  input,select,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid #ddd}
+  .success{background:#e6ffef;border:1px solid #b6f2d2;padding:12px;border-radius:8px;color:#116644}
+
+  /* ---------- FOOTER ---------- */
+  footer{margin-top:30px;padding:18px;background:#0d1117;color:#fff;text-align:center;border-radius:8px;}
+
+  /* ---------- SMALL SCREENS ---------- */
+  @media(max-width:640px){
+    .hero{flex-direction:column;align-items:stretch}
+    .hero-right{width:100%}
+    .modal .top{flex-direction:column}
+    .modal .top img{width:100%}
+    .cart-panel{right:10px;left:10px;width:auto}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container topbar">
+    <div class="brand">NexaStore</div>
+    <div class="nav-actions">
+      <div class="search">Search (demo)</div>
+      <button id="openCart" class="cart-btn">Cart <span id="cartCount" class="cart-count">0</span></button>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <!-- HERO -->
+  <section class="hero" aria-hidden="false">
+    <div class="hero-left">
+      <h1>Minimal E-Commerce — Demo Store</h1>
+      <p>Responsive product grid, cart & checkout — backed by Firebase Firestore.</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <button class="cta" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">Shop Products</button>
+      </div>
+    </div>
+    <div class="hero-right">
+      <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.0.3&s=5e4c5844e0f4aa3bde7e7763b16566a0" alt="hero">
+    </div>
+  </section>
+
+  <!-- PRODUCTS FILTER + TITLE -->
+  <div class="section-title">
+    <h2>Products</h2>
+    <div class="filters">
+      <button class="filter-btn" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="coffee">Coffee</button>
+      <button class="filter-btn" data-filter="merch">Merch</button>
+    </div>
+  </div>
+
+  <section id="products" class="products" aria-live="polite">
+    <!-- products render here -->
+  </section>
+
+  <!-- CHECKOUT AREA -->
+  <section style="margin-top:28px;">
+    <div style="display:flex;gap:18px;flex-wrap:wrap;align-items:flex-start">
+      <div style="flex:1;min-width:260px">
+        <h2>Checkout</h2>
+        <div id="checkout-area" class="checkout">
+          <p>Cart summary will appear here. Add products to start checkout.</p>
+        </div>
+      </div>
+      <div style="width:320px;min-width:260px">
+        <h2>Quick Order</h2>
+        <form id="quickOrder" class="checkout" onsubmit="return false">
+          <div class="form-row"><input id="qName" placeholder="Name" required></div>
+          <div class="form-row"><input id="qEmail" placeholder="Email" type="email" required></div>
+          <div class="form-row"><select id="qCoffee"><option>Espresso</option><option>Cappuccino</option><option>Latte</option></select></div>
+          <div class="form-row"><input id="qQty" type="number" min="1" value="1"></div>
+          <div class="form-row"><button id="quickPlace" class="btn-primary" style="width:100%">Place Quick Order</button></div>
+          <div id="quickMsg"></div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+      <div>© 2025 NexaStore — Demo by Sarthak</div>
+      <div style="opacity:.9">Built with HTML, CSS, JS & Firebase</div>
+    </div>
+  </footer>
+</main>
+
+<!-- CART PANEL -->
+<aside id="cartPanel" class="cart-panel" aria-hidden="true">
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <strong>Your Cart</strong>
+    <button id="closeCart" class="close-x">Close</button>
+  </div>
+  <div id="cartItemsList" style="max-height:360px;overflow:auto;padding-top:8px"></div>
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <div><strong>Total:</strong> $<span id="cartTotal">0.00</span></div>
+    <button id="checkoutBtn" class="btn-primary">Checkout</button>
+  </div>
+</aside>
+
+<!-- PRODUCT MODAL -->
+<div id="modalBackdrop" class="modal-backdrop" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <strong>Product</strong>
+      <button id="closeModal" class="close-x">X</button>
+    </div>
+    <div class="top">
+      <img id="modalImg" src="" alt="product">
+      <div class="info">
+        <h3 id="modalTitle"></h3>
+        <p id="modalDesc"></p>
+        <div style="margin:10px 0"><strong>$<span id="modalPrice">0</span></strong></div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <input id="modalQty" type="number" min="1" value="1" style="width:80px;padding:8px;border-radius:8px;border:1px solid #ddd">
+          <button id="modalAdd" class="btn-primary">Add to cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ========== FIREBASE CONFIG - PASTE YOURS HERE ========== */
+/* 1) In Firebase Console, create a Web app and copy the config object
+   2) Replace the object below with your project's config.
+   Example format:
+   const firebaseConfig = {
+     apiKey: "AIzaSyxxxx",
+     authDomain: "your-project.firebaseapp.com",
+     projectId: "your-project",
+     storageBucket: "your-project.appspot.com",
+     messagingSenderId: "123456789",
+     appId: "1:123:web:abcdef"
+   };
+*/
+const firebaseConfig = {
+  /* TODO: PASTE FIREBASE CONFIG HERE */
+  apiKey: "AIzaSyAHXIg5VMr-vnHDKkyyKacu4FHhqI8rnJs",
+  authDomain: "nexastore-a4af8.firebaseapp.com",
+  projectId: "nexastore-a4af8",
+  storageBucket: "nexastore-a4af8.firebasestorage.app",
+  messagingSenderId: "804661572669",
+  appId: "1:804661572669:web:89c4b73de9d15f5973a654",
+  measurementId: "G-8VLQNEBHTW"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+/* ========== FALLBACK PRODUCTS (used if Firestore empty) ========== */
+const LOCAL_PRODUCTS = [
+  { id: 'p1', title: 'Espresso Beans - 250g', price: 9.99, tag: 'coffee', img: 'https://images.unsplash.com/photo-1511920170033-f8396924c348?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=1a2b7b6f9c7d4a1b', desc: 'Rich single-origin espresso beans.' },
+  { id: 'p2', title: 'Cappuccino Mug', price: 12.5, tag: 'merch', img: 'https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=bc9f5c3b1cec4f2d', desc: 'Handmade ceramic mug.' },
+  { id: 'p3', title: 'Latte Jar', price: 7.5, tag: 'coffee', img: 'https://images.unsplash.com/photo-1510627498534-cf7e9002facc?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=5c8e2c3a6f2d8ad1', desc: 'Smooth medium-roast for lattes.' },
+  { id: 'p4', title: 'NexaStore Tee', price: 19.99, tag: 'merch', img: 'https://images.unsplash.com/photo-1520962912225-5e7b1b90b2a9?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=7a4f3e6a8a2d5f0c', desc: 'Comfortable cotton tee.' },
+  { id: 'p5', title: 'Mocha Pack - 200g', price: 11.25, tag: 'coffee', img: 'https://images.unsplash.com/photo-1498804103079-a6351b050096?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=8b6b0f2b4f7d1d4c', desc: 'Flavorful mocha blend.' }
+];
+
+/* ========== CART + UI refs ========== */
+const CART_KEY = 'nexastore_cart_v1';
+let cart = JSON.parse(localStorage.getItem(CART_KEY) || '[]');
+let PRODUCTS = []; // will be loaded from Firestore or fallback
+const productsEl = document.getElementById('products');
+const cartCountEl = document.getElementById('cartCount');
+const openCartBtn = document.getElementById('openCart');
+const closeCartBtn = document.getElementById('closeCart');
+const cartPanel = document.getElementById('cartPanel');
+const cartItemsList = document.getElementById('cartItemsList');
+const cartTotalEl = document.getElementById('cartTotal');
+
+const modalBackdrop = document.getElementById('modalBackdrop');
+const modalImg = document.getElementById('modalImg');
+const modalTitle = document.getElementById('modalTitle');
+const modalDesc = document.getElementById('modalDesc');
+const modalPrice = document.getElementById('modalPrice');
+const modalQty = document.getElementById('modalQty');
+const modalAdd = document.getElementById('modalAdd');
+const closeModalBtn = document.getElementById('closeModal');
+
+const checkoutArea = document.getElementById('checkout-area');
+const quickOrderForm = document.getElementById('quickOrder');
+const quickMsg = document.getElementById('quickMsg');
+
+/* ========== FIRESTORE: load products, seed if empty ========= */
+async function loadProductsFromFirestore(){
+  try{
+    const snapshot = await db.collection('products').get();
+    if(!snapshot.empty){
+      PRODUCTS = snapshot.docs.map(d => {
+        const data = d.data();
+        return { id: d.id, title: data.title, price: data.price, tag: data.tag, img: data.img, desc: data.desc };
+      });
+      renderProducts('all');
+      return;
+    } else {
+      // seed products if empty
+      await seedProductsToFirestore();
+      // recall load
+      const sn = await db.collection('products').get();
+      PRODUCTS = sn.docs.map(d => ({ id: d.id, ...d.data() }));
+      renderProducts('all');
+      return;
+    }
+  }catch(err){
+    console.warn('Firestore products load failed, falling back to local list.', err);
+    PRODUCTS = LOCAL_PRODUCTS;
+    renderProducts('all');
+  }
+}
+
+async function seedProductsToFirestore(){
+  const batch = db.batch && db.batch();
+  // simple seed: add LOCAL_PRODUCTS but with auto IDs
+  for(const p of LOCAL_PRODUCTS){
+    const ref = db.collection('products').doc(); // auto-id
+    await ref.set({
+      title: p.title,
+      price: p.price,
+      tag: p.tag,
+      img: p.img,
+      desc: p.desc
+    });
+  }
+}
+
+/* ========== RENDER & UI LOGIC (same as before) ========= */
+function renderProducts(filter='all'){
+  productsEl.innerHTML = '';
+  const list = PRODUCTS.filter(p => filter==='all' ? true : p.tag===filter);
+  list.forEach(p =>{
+    const card = document.createElement('article');
+    card.className = 'card';
+    card.innerHTML = `
+      <div class="media"><img src="${p.img}" alt="${escapeHtml(p.title)}"></div>
+      <div class="body">
+        <div>
+          <h3>${escapeHtml(p.title)}</h3>
+          <div class="price">$${Number(p.price).toFixed(2)}</div>
+          <div class="desc" style="color:#666;font-size:0.92rem;margin-bottom:8px">${escapeHtml(p.desc)}</div>
+        </div>
+        <div class="actions">
+          <button class="btn-outline" data-id="${p.id}" data-action="quickview">Quick View</button>
+          <button class="btn-primary" data-id="${p.id}" data-action="add">Add to cart</button>
+        </div>
+      </div>
+    `;
+    productsEl.appendChild(card);
+  });
+}
+
+/* Event delegation for product actions */
+productsEl.addEventListener('click', (ev)=>{
+  const btn = ev.target.closest('button');
+  if(!btn) return;
+  const id = btn.getAttribute('data-id');
+  const action = btn.getAttribute('data-action');
+  if(action==='add') addToCart(id,1);
+  if(action==='quickview') openProductModal(id);
+});
+
+/* Modal functions */
+function openProductModal(id){
+  const p = PRODUCTS.find(x => x.id===id);
+  if(!p) return;
+  modalImg.src = p.img;
+  modalTitle.textContent = p.title;
+  modalDesc.textContent = p.desc;
+  modalPrice.textContent = Number(p.price).toFixed(2);
+  modalQty.value = 1;
+  modalAdd.onclick = () => { addToCart(p.id, Number(modalQty.value)); closeModal(); };
+  modalBackdrop.classList.add('open');
+  modalBackdrop.setAttribute('aria-hidden','false');
+}
+function closeModal(){
+  modalBackdrop.classList.remove('open');
+  modalBackdrop.setAttribute('aria-hidden','true');
+}
+closeModalBtn.addEventListener('click', closeModal);
+modalBackdrop.addEventListener('click', e => { if(e.target === modalBackdrop) closeModal(); });
+
+/* CART logic with Firestore orders */
+function saveCartLocal(){
+  localStorage.setItem(CART_KEY, JSON.stringify(cart));
+  renderCart();
+  updateCartCount();
+}
+
+function addToCart(id, qty=1){
+  const idx = cart.findIndex(i=>i.id===id);
+  if(idx>-1) cart[idx].qty += qty;
+  else cart.push({id:id, qty: qty});
+  saveCartLocal();
+  flashMessage('Added to cart');
+}
+
+function removeFromCart(id){
+  cart = cart.filter(i => i.id !== id);
+  saveCartLocal();
+}
+function updateQty(id, qty){
+  const it = cart.find(i=>i.id===id);
+  if(!it) return;
+  it.qty = qty;
+  if(it.qty <= 0) removeFromCart(id);
+  saveCartLocal();
+}
+function calculateTotal(){
+  let total = 0;
+  cart.forEach(item=>{
+    const p = PRODUCTS.find(x=>x.id===item.id);
+    if(p) total += Number(p.price) * item.qty;
+  });
+  return total;
+}
+function renderCart(){
+  cartItemsList.innerHTML = '';
+  if(cart.length===0){
+    cartItemsList.innerHTML = '<div style="padding:12px;color:#666">Your cart is empty.</div>';
+    cartTotalEl.textContent = '0.00';
+    updateCheckoutArea();
+    return;
+  }
+  cart.forEach(item=>{
+    const p = PRODUCTS.find(x => x.id === item.id);
+    const row = document.createElement('div');
+    row.className = 'cart-item';
+    row.innerHTML = `
+      <img src="${p.img}" alt="${escapeHtml(p.title)}">
+      <div class="meta">
+        <div style="font-weight:700">${escapeHtml(p.title)}</div>
+        <div style="color:#666;font-size:0.9rem">$${p.price.toFixed(2)} x ${item.qty}</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+        <div class="qty-controls">
+          <button class="small-btn" data-id="${item.id}" data-action="dec">-</button>
+          <div style="min-width:24px;text-align:center">${item.qty}</div>
+          <button class="small-btn" data-id="${item.id}" data-action="inc">+</button>
+        </div>
+        <button class="small-btn" data-id="${item.id}" data-action="remove">Remove</button>
+      </div>
+    `;
+    cartItemsList.appendChild(row);
+  });
+  cartTotalEl.textContent = calculateTotal().toFixed(2);
+  updateCheckoutArea();
+}
+
+cartItemsList.addEventListener('click', e=>{
+  const btn = e.target.closest('button');
+  if(!btn) return;
+  const id = btn.getAttribute('data-id');
+  const action = btn.getAttribute('data-action');
+  if(action==='remove') removeFromCart(id);
+  if(action==='inc') updateQty(id, (cart.find(i=>i.id===id).qty + 1));
+  if(action==='dec') updateQty(id, (cart.find(i=>i.id===id).qty - 1));
+});
+
+/* UI helpers */
+function updateCartCount(){
+  const total = cart.reduce((s,i)=>s+i.qty,0);
+  cartCountEl.textContent = total;
+}
+function flashMessage(msg){
+  const t = document.createElement('div');
+  t.textContent = msg;
+  t.style.position='fixed';
+  t.style.left='50%';
+  t.style.transform='translateX(-50%)';
+  t.style.bottom='24px';
+  t.style.background='#111';
+  t.style.color='#fff';
+  t.style.padding='8px 14px';
+  t.style.borderRadius='8px';
+  t.style.zIndex=9999;
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(),1400);
+}
+
+/* Cart panel toggle */
+openCartBtn.addEventListener('click', ()=>cartPanel.classList.toggle('open'));
+closeCartBtn.addEventListener('click', ()=>cartPanel.classList.remove('open'));
+document.getElementById('checkoutBtn').addEventListener('click', ()=> {
+  cartPanel.classList.remove('open');
+  document.getElementById('checkout-area').scrollIntoView({behavior:'smooth'});
+});
+
+/* Checkout area update */
+function updateCheckoutArea(){
+  if(cart.length===0){
+    checkoutArea.innerHTML = '<p>Your cart is empty. Add products to see the checkout.</p>';
+    return;
+  }
+  const rows = cart.map(item=>{
+    const p = PRODUCTS.find(x=>x.id===item.id);
+    return `<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed #eee"><div>
+      <strong>${escapeHtml(p.title)}</strong><div style="color:#666;font-size:0.9rem">${item.qty} x $${p.price.toFixed(2)}</div>
+    </div><div style="font-weight:700">$${(p.price*item.qty).toFixed(2)}</div></div>`;
+  }).join('');
+  const total = calculateTotal().toFixed(2);
+  checkoutArea.innerHTML = `
+    ${rows}
+    <div style="display:flex;justify-content:space-between;padding:12px 0;font-weight:700">Total <div>$${total}</div></div>
+    <div style="margin-top:10px">
+      <form id="checkoutForm">
+        <div class="form-row"><input name="name" placeholder="Full name" required></div>
+        <div class="form-row"><input name="email" type="email" placeholder="Email" required></div>
+        <div class="form-row"><textarea name="address" placeholder="Delivery address" rows="2" required></textarea></div>
+        <div class="form-row"><button type="submit" class="btn-primary" style="width:100%">Place Order</button></div>
+      </form>
+      <div id="orderMsg"></div>
+    </div>`;
+  document.getElementById('checkoutForm').addEventListener('submit', handlePlaceOrder);
+}
+
+/* Place order: save to Firestore 'orders' collection */
+async function handlePlaceOrder(e){
+  e.preventDefault();
+  const form = e.target;
+  const data = {
+    name: form.name.value,
+    email: form.email.value,
+    address: form.address.value,
+    items: cart.map(i => ({ id: i.id, qty: i.qty })),
+    total: calculateTotal(),
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  };
+
+  // Save to Firestore
+  try{
+    await db.collection('orders').add(data);
+    // clear cart local
+    cart = [];
+    saveCartLocal();
+    document.getElementById('orderMsg').innerHTML = '<div class="success">Order placed! Saved to Firestore.</div>';
+    form.reset();
+  }catch(err){
+    console.error(err);
+    document.getElementById('orderMsg').innerHTML = '<div style="color:#b00020">Error placing order. Check console.</div>';
+  }
+}
+
+/* Quick order saves to Firestore orders as well */
+quickOrderForm.addEventListener('submit', async (ev)=>{
+  ev.preventDefault();
+  const qname = document.getElementById('qName').value;
+  const qemail = document.getElementById('qEmail').value;
+  const coffee = document.getElementById('qCoffee').value;
+  const qty = Number(document.getElementById('qQty').value || 1);
+  const data = {
+    name: qname,
+    email: qemail,
+    address: 'Quick Order',
+    items: [{ title: coffee, qty }],
+    total: 0,
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  };
+  try{
+    await db.collection('orders').add(data);
+    quickMsg.innerHTML = '<div class="success">Quick order received! Saved to Firestore.</div>';
+    quickOrderForm.reset();
+  }catch(err){
+    console.error(err);
+    quickMsg.innerHTML = '<div style="color:#b00020">Quick order failed.</div>';
+  }
+});
+
+/* FILTER BUTTONS */
+document.querySelectorAll('.filter-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=> {
+    document.querySelectorAll('.filter-btn').forEach(b=>b.style.background='');
+    btn.style.background='#e9f3ff';
+    const f = btn.getAttribute('data-filter');
+    renderProducts(f);
+  });
+});
+
+/* UTIL */
+function escapeHtml(s){return (s||'').toString().replaceAll && s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')}
+
+/* INIT: load products from Firestore or fallback */
+async function init(){
+  // load cart from localStorage
+  cart = JSON.parse(localStorage.getItem(CART_KEY) || '[]');
+
+  try{
+    await loadProductsFromFirestore();
+  }catch(e){
+    PRODUCTS = LOCAL_PRODUCTS;
+    renderProducts('all');
+  }
+  renderCart();
+  updateCartCount();
+  updateCheckoutArea();
+}
+init();
+
+/* keyboard shortcut c -> open cart (dev) */
+document.addEventListener('keydown', e => { if(e.key==='c') cartPanel.classList.toggle('open') });
+</script>
+</body>
+</html>
