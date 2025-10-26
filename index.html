@@ -1,574 +1,400 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NexaCode | Crafting Digital Excellence</title>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-<style>
-  /* Global Styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-body {
-  font-family: 'Roboto', sans-serif;
-  background: #f4f6f9;
-  color: #333;
-  line-height: 1.6;
-}
-a {
-  text-decoration: none;
-  color: inherit;
-}
-img {
-  max-width: 100%;
-  border-radius: 10px;
-}
-h1, h2, h3 {
-  font-weight: 700;
-}
-section {
-  padding: 80px 20px;
-  max-width: 1200px;
-  margin: auto;
-}
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>NexaCode — Crafting Digital Excellence</title>
 
-/* Navbar */
-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 18px 35px;
-  background: #0d1117;
-  color: white;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
-nav h2 {
-  font-size: 1.6rem;
-  letter-spacing: 1px;
-}
-nav ul {
-  display: flex;
-  gap: 22px;
-  list-style: none;
-}
-nav ul li a {
-  color: white;
-  font-weight: 500;
-  transition: 0.3s;
-}
-nav ul li a:hover {
-  color: #ffca28;
-}
-
-/* Hero */
-.hero {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  min-height: 70vh;
-  background: linear-gradient(135deg, #0d1117, #161b22);
-  color: white;
-  padding: 60px 20px;
-}
-.hero h1 {
-  font-size: 2.5rem;
-  margin-bottom: 18px;
-}
-.hero p {
-  font-size: 1.2rem;
-  margin-bottom: 25px;
-  color: #c9d1d9;
-}
-.hero .cta-btn {
-  padding: 12px 28px;
-  font-size: 1rem;
-  border-radius: 30px;
-  border: none;
-  background: #ffca28;
-  color: #0d1117;
-  font-weight: bold;
-  cursor: pointer;
-  transition: 0.3s;
-}
-.hero .cta-btn:hover {
-  background: #ffc107;
-}
-
-/* Portfolio */
-/* Portfolio Section */
-.portfolio {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-  gap: 25px;
-  margin-top: 50px;
-}
-
-.portfolio-item {
-  background: white;
-  border-radius: 15px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-  overflow: hidden;
-  transition: all 0.3s ease;
-  position: relative;
-}
-
-.portfolio-item img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-  transition: transform 0.4s ease;
-}
-
-.portfolio-item:hover img {
-  transform: scale(1.05);
-}
-
-.card-content {
-  padding: 20px;
-  text-align: center;
-}
-
-.card-content h3 {
-  margin-bottom: 10px;
-  font-size: 1.1rem;
-}
-
-.card-content p {
-  color: #555;
-  font-size: 0.9rem;
-  margin-bottom: 10px;
-}
-
-.view-btn {
-  display: inline-block;
-  padding: 10px 20px;
-  background: #4a90e2;
-  color: white;
-  border-radius: 8px;
-  font-weight: bold;
-  transition: 0.3s;
-  opacity: 0;
-  transform: translateY(10px);
-}
-
-.portfolio-item:hover .view-btn {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.view-btn:hover {
-  background: #357abd;
-}
-
-  
-}
-.portfolio-item h3 {
-  padding: 15px;
-  font-size: 1rem;
-}
-
-/* About */
-.about {
-  background: #161b22;
-  color: white;
-  border-radius: 15px;
-  text-align: center;
-  padding: 60px 25px;
-}
-.about h2 {
-  margin-bottom: 18px;
-  font-size: 1.8rem;
-}
-.about p {
-  max-width: 800px;
-  margin: auto;
-  color: #c9d1d9;
-  font-size: 1rem;
-  line-height: 1.7;
-}
-
-/* Featured Project */
-#projects {
-  background: #f5f7fa;
-  text-align: center;
-  padding: 60px 20px;
-}
-#projects h2 {
-  font-size: 2rem;
-  color: #333;
-}
-#projects .featured {
-  background: white;
-  display: inline-block;
-  padding: 25px;
-  border-radius: 15px;
-  box-shadow: 0 6px 12px rgba(0,0,0,0.1);
-  margin-top: 25px;
-  width: 320px;
-}
-#projects .featured img {
-  border-radius: 10px;
-  margin-bottom: 15px;
-}
-#projects .featured h3 {
-  color: #4a90e2;
-  margin-bottom: 10px;
-}
-#projects .featured p {
-  margin-bottom: 15px;
-}
-#projects .featured a {
-  display: inline-block;
-  background: #4a90e2;
-  color: white;
-  padding: 10px 18px;
-  border-radius: 8px;
-  font-weight: bold;
-  transition: 0.3s;
-}
-#projects .featured a:hover {
-  background: #3b7ac8;
-}
-
-/* Contact */
-.contact {
-  text-align: center;
-  padding: 60px 20px;
-}
-.contact h2 {
-  margin-bottom: 20px;
-  font-size: 1.8rem;
-}
-.social-btn {
-  display: inline-block;
-  margin: 10px;
-  padding: 12px 25px;
-  background: #ffca28;
-  color: #0d1117;
-  font-weight: bold;
-  border-radius: 30px;
-  transition: 0.3s;
-}
-.social-btn:hover {
-  background: #ffc107;
-  transform: translateY(-3px);
-}
-
-/* Footer */
-footer {
-  text-align: center;
-  padding: 30px 20px;
-  background: #0d1117;
-  color: white;
-  margin-top: 50px;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  nav ul {
-    gap: 12px;
-  }
-  .hero {
-    min-height: 60vh;
-    padding: 40px 15px;
-  }
-  .hero h1 {
-    font-size: 2rem;
-  }
-  .hero p {
-    font-size: 1rem;
-  }
-  section {
-    padding: 50px 15px;
-  }
-  #projects .featured {
-    width: 90%;
-  }
-}
-  html {
-    scroll-behavior: smooth;
-  }
-  * { 
-  box-sizing: border-box;
-  }
-  nav ul {
-    display: flex;
-    fkex-wrap: wrap;
-    gap: 10px;
-  }
-  section {
-    padding: 20px;
-    max-width: 100%;
-    ovreflow-x: hidden;
-  }
-  .home buttons a{
-    width: 100%
-    max-width: 280px;
-  }
-
-  .project-card {
-    width: 100%;
-    max-width: 300px;
-    margin: auto;
-  }
-  #projects h2 {
-    text-align: center;
-  }
-  .project-card img {
-    width: 200%;
-    height: auto;
-    border-radius: 10px;
-  }
-  /* RESET */
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  font-family: 'Poppins', sans-serif;
-  background: #0b0f12;
-  color: #e9faff;
-  overflow-x: hidden;
-}
-
-/* LIGHT AQUA THEME */
-:root {
-  --primary: #24d7d0; /* Aqua */
-  --dark: #0b0f12;
-  --light: #e9faff;
-  --card: #12171d;
-}
-
-/* HEADER */
-header {
-  text-align: center;
-  padding: 25px 10px 15px;
-}
-header h1 {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: var(--primary);
-}
-
-/* MAIN GRID CARDS */
-.main-container {
-  padding: 20px;
-  padding-bottom: 90px;
-}
-.card {
-  background: var(--card);
-  border-radius: 16px;
-  padding: 22px;
-  margin-bottom: 15px;
-  text-align: left;
-  transition: .3s;
-}
-.card:hover {
-  transform: translateY(-4px);
-}
-.card h2 {
-  font-size: 1.25rem;
-  margin-bottom: 8px;
-  color: var(--primary);
-}
-.card p {
-  font-size: 0.95rem;
-  color: var(--light);
-}
-
-/* BOTTOM NAVIGATION */
-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 68px;
-  background: #11161d;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  border-top: 2px solid var(--primary);
-  z-index: 99;
-}
-nav a {
-  color: #6b7e88;
-  text-decoration: none;
-  font-size: 0.75rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  transition: .3s;
-}
-nav a i {
-  font-size: 1.4rem;
-  margin-bottom: 2px;
-}
-nav a.active,
-nav a:hover {
-  color: var(--primary);
-}
-
-/* MOBILE FIRST ✅ */
-@media(min-width: 700px) {
-  header h1 { font-size: 2.1rem; }
-  .main-container {
-    width: 450px;
-    margin: auto;
-  }
-}
-
-
-</style>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-8CYY44RMCW"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-8CYY44RMCW');
-</script>
-
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
+  <style>
+    /* ========== BASE RESET ========== */
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background:#ffffff;
+      color:#0b1114;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+    }
+
+    :root{
+      --aqua:#24d7d0;
+      --aqua-900:#0fbfb8;
+      --muted:#6b7780;
+      --card:#f7fbfb;
+      --glass: rgba(36,215,208,0.08);
+      --max-width:1100px;
+    }
+
+    a{color:inherit;text-decoration:none}
+
+    /* ========== NAVBAR (hidden until scroll) ========== */
+    header.site-header{
+      position:fixed; left:0; right:0; top:0; z-index:50;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:18px 18px; transition:all .28s ease;
+      background:transparent; border-bottom:0;
+    }
+    header.site-header.show {
+      background: rgba(255,255,255,0.98);
+      box-shadow: 0 6px 24px rgba(11,17,20,0.06);
+      border-bottom: 1px solid rgba(11,17,20,0.04);
+      padding:12px 18px;
+    }
+    .brand { display:flex; align-items:center; gap:12px; }
+    .logo-dot{
+      width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--aqua),var(--aqua-900));
+      display:inline-block; box-shadow:0 6px 18px rgba(36,215,208,0.12);
+    }
+    .brand h1{font-family:'Playfair Display', serif; font-size:1.05rem; color:#071018; letter-spacing:0.2px}
+    nav.top-nav{display:flex;align-items:center;gap:12px}
+    nav.top-nav a.cta{
+      display:inline-block; padding:9px 14px; border-radius:10px; background:var(--aqua); color:#042021; font-weight:600;
+      box-shadow:0 8px 18px rgba(36,215,208,0.12);
+      transition:transform .12s ease;
+    }
+    nav.top-nav a.cta:active{transform:translateY(1px)}
+    .hide-on-mobile{display:inline-block}
+
+    /* small screens - hide nav links text to keep header minimal */
+    @media(max-width:720px){
+      .hide-on-mobile{display:none}
+    }
+
+    /* ========== HERO ========== */
+    .hero {
+      max-width:var(--max-width);
+      margin:90px auto 18px;
+      padding:36px 18px 28px;
+      display:flex; flex-direction:column; gap:18px; align-items:flex-start;
+    }
+    .hero-inner{
+      width:100%;
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:18px;
+      align-items:center;
+    }
+    .hero h2{
+      font-family:'Playfair Display', serif;
+      font-weight:700;
+      font-size:2.05rem;
+      color:#042021;
+      line-height:1.05;
+    }
+    .hero p.lead {
+      color:var(--muted); max-width:720px; font-size:1rem;
+    }
+    .hero-actions{display:flex; gap:12px; align-items:center; margin-top:8px}
+    .btn-primary{
+      background: linear-gradient(90deg,var(--aqua),var(--aqua-900));
+      color:#042021; padding:12px 16px; border-radius:12px; font-weight:600; border:none; cursor:pointer;
+      box-shadow: 0 12px 30px rgba(36,215,208,0.08);
+    }
+    .btn-ghost{
+      padding:10px 14px; border-radius:10px; border:1px solid rgba(4,32,33,0.06); background:transparent; color:#042021;
+      font-weight:600; cursor:pointer;
+    }
+
+    /* small hero summary card (right in desktop) */
+    .hero-preview{
+      display:none;
+      background:var(--card); border-radius:12px; padding:16px; box-shadow:0 10px 30px rgba(11,17,20,0.04);
+      width:360px;
+    }
+    .hero-preview .label{font-size:.78rem;color:var(--muted); margin-bottom:8px}
+    .mockup{
+      width:100%; height:180px; border-radius:8px; background:linear-gradient(180deg,#ffffff,#f3fbfb);
+      display:flex; align-items:center; justify-content:center; color:#98a6a6; font-weight:600;
+    }
+
+    @media(min-width:900px){
+      .hero-inner{grid-template-columns: 1fr 360px}
+      .hero-preview{display:block}
+      .hero h2{font-size:2.6rem}
+    }
+
+    /* ========== FEATURES / CARDS ========== */
+    .section{max-width:var(--max-width); margin:18px auto; padding:18px;}
+    .grid{display:grid; gap:14px}
+    .grid.cols-3{grid-template-columns:repeat(1,1fr)}
+    @media(min-width:720px){ .grid.cols-3{grid-template-columns:repeat(3,1fr)} }
+
+    .card {
+      background: #fff;
+      border-radius:14px;
+      padding:16px;
+      box-shadow: 0 8px 30px rgba(11,17,20,0.04);
+      transition:transform .32s cubic-bezier(.2,.9,.3,1), box-shadow .2s;
+      transform: translateY(18px);
+      opacity: 0;
+    }
+    .card.visible { transform: translateY(0); opacity:1 }
+    .card h3{font-family:'Playfair Display', serif; color:#042021; margin-bottom:8px}
+    .card p{color:var(--muted); font-size:.95rem}
+
+    .project-img{
+      width:100%; height:160px; object-fit:cover; border-radius:10px; margin-bottom:12px;
+      background:#f3f7f7;
+    }
+    .proj-row{display:flex; align-items:center; justify-content:space-between; gap:8px}
+    .view-btn{
+      padding:8px 12px; border-radius:10px; background:transparent; border:1px solid rgba(4,32,33,0.06); font-weight:600; cursor:pointer;
+    }
+    .view-btn.primary{
+      background:linear-gradient(90deg,var(--aqua),var(--aqua-900)); color:#042021; border:none;
+    }
+
+    /* ========== CONTACT MODAL ========== */
+    .modal-backdrop{position:fixed; inset:0; background:rgba(4,8,9,0.48); display:none; align-items:center; justify-content:center; z-index:105}
+    .modal-backdrop.open{display:flex}
+    .modal {
+      width:92%; max-width:520px; background:#fff; border-radius:12px; padding:20px;
+      box-shadow:0 20px 60px rgba(11,17,20,0.14);
+    }
+    .modal h3{font-family:'Playfair Display', serif; margin-bottom:8px}
+    .modal label{font-size:.85rem;color:var(--muted); display:block; margin-top:10px}
+    .modal input, .modal textarea{
+      width:100%; padding:10px 12px; margin-top:6px; border-radius:8px; border:1px solid rgba(11,17,20,0.06);
+      font-size:.95rem;
+    }
+    .modal .row{display:flex; gap:8px}
+    .modal .row .col{flex:1}
+
+    /* ========== FLOATING QUICK ACTIONS ========== */
+    .quick-actions{
+      position:fixed; right:14px; bottom:90px; display:flex; flex-direction:column; gap:10px; z-index:120;
+    }
+    .qa-btn{
+      width:52px; height:52px; border-radius:14px; display:flex; align-items:center; justify-content:center;
+      background:var(--aqua); color:#042021; box-shadow:0 10px 30px rgba(36,215,208,0.12); cursor:pointer;
+    }
+    .qa-small{background:#ffffff; color:var(--aqua); border:1px solid rgba(4,32,33,0.06)}
+
+    /* ========== FOOTER ========== */
+    footer.site-footer{margin-top:28px;padding:28px 18px;text-align:center;color:var(--muted)}
+
+    /* ========== RESPONSIVE TWEAKS ========== */
+    @media(max-width:480px){
+      .hero{margin-top:78px}
+      header.site-header{padding:10px 14px}
+      .hero h2{font-size:1.4rem}
+      .hero-preview{display:none}
+      .quick-actions{right:12px; bottom:80px}
+    }
+  </style>
 </head>
 <body>
 
-  <!-- Navbar -->
-  <nav>
-  <a href="Landing-page.html" class="active">
-    <i class="fas fa-home"></i>
-    <span>Home</span>
-  </a>
-
-  <a href="Courses.html">
-    <i class="fas fa-book-open"></i>
-    <span>Courses</span>
-  </a>
-
-  <a href="Academics.html">
-    <i class="fas fa-chart-line"></i>
-    <span>Progress</span>
-  </a>
-
-  <a href="Profile.html">
-    <i class="fas fa-user"></i>
-    <span>Profile</span>
-  </a>
-</nav>
-
-
-  <!-- Hero Section -->
-    <!-- Hero Section -->
-<section class="hero" style="min-height:60vh; padding:60px 20px;">
-  <h1 style="font-size:2.2rem; margin-bottom:15px;">Crafting Digital Excellence</h1>
-  <p style="font-size:1.1rem; margin-bottom:20px; color:#c9d1d9;">
-    I build websites and landing pages that make businesses stand out online.
-  </p>
-  <button class="cta-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})" style="padding:12px 25px; font-size:0.95rem;">
-    Hire Me
-  </button>
-</section>
-
-
-  <!-- Portfolio Section -->
- <!-- Portfolio Section -->
-<section id="portfolio">
-  <h2 style="text-align:center; margin-bottom:40px;">My Work</h2>
-  <div class="portfolio">
-    <div class="portfolio-item">
-      <img src="images/project1.jpg" alt="Project 1">
-      <div class="card-content">
-        <h3>Velvet Bean | Premium Coffee Experience</h3>
-        <a href="velvet-bean.html" class="view-btn">View Project</a>
-      </div>
+  <!-- HEADER -->
+  <header class="site-header" id="siteHeader">
+    <div class="brand">
+      <span class="logo-dot" aria-hidden="true"></span>
+      <h1>NexaCode</h1>
     </div>
+    <nav class="top-nav">
+      <a href="#portfolio" class="hide-on-mobile">Portfolio</a>
+      <a href="#about" class="hide-on-mobile">About</a>
+      <a href="#contact" class="hide-on-mobile">Contact</a>
+      <a class="cta" id="openContact">Let’s Build Something</a>
+    </nav>
+  </header>
 
-    <div class="portfolio-item">
-      <img src="images/project2.jpg" alt="Project 2">
-      <div class="card-content">
-        <h3>NexaStore</h3>
-        <a href="store.html" class="view-btn">View Project</a>
+  <!-- HERO -->
+  <main>
+    <section class="hero" aria-labelledby="heroTitle">
+      <div class="hero-inner">
+        <div>
+          <h2 id="heroTitle">I build websites & apps that turn visitors into customers.</h2>
+          <p class="lead">Clean, responsive landing pages and lightweight apps for creators, cafés, and local brands — built for speed and conversions.</p>
+
+          <div class="hero-actions">
+            <button class="btn-primary" id="openContactAlt">Let’s Build Something</button>
+            <a href="#portfolio" class="btn-ghost">View portfolio</a>
+          </div>
+
+          <div style="margin-top:18px; color:var(--muted); font-size:.92rem">
+            <strong>Small projects start from ₹5,000</strong> — or get a free demo site to start.
+          </div>
+        </div>
+
+        <aside class="hero-preview" aria-hidden="true">
+          <div class="label">Preview</div>
+          <div class="mockup">NexaCode — Project Preview</div>
+          <div style="margin-top:12px;color:var(--muted);font-size:.95rem">Sleek single-page sites • Fast loading • Mobile-first</div>
+        </aside>
       </div>
-    </div>
+    </section>
 
-    <div class="portfolio-item">
-      <img src="images/project3.jpg" alt="Project 3">
-      <div class="card-content">
-        <h3>Freelancing Website</h3>
-        <a href="#" class="view-btn">View Project</a>
+    <!-- FEATURES -->
+    <section class="section" id="about">
+      <div style="max-width:var(--max-width);margin:auto;padding:6px 18px 0;">
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.25rem;color:#042021;margin-bottom:8px">What I do</h3>
+        <p style="color:var(--muted);max-width:860px">I design and build minimal websites, installable Progressive Web Apps, and landing pages that help small brands convert visitors into customers. Fast, affordable, and tailored to your vibe.</p>
       </div>
-    </div>
+    </section>
 
-    <div class="portfolio-item">
-      <img src="images/project4.jpg" alt="Project 4">
-      <div class="card-content">
-        <h3>Startup Landing Page</h3>
-        <a href="#" class="view-btn">View Project</a>
+    <!-- PORTFOLIO -->
+    <section class="section" id="portfolio" aria-labelledby="portfolioHeading">
+      <div style="max-width:var(--max-width); margin:auto;">
+        <h3 id="portfolioHeading" style="font-family:'Playfair Display',serif;font-size:1.25rem;color:#042021;margin-bottom:12px">Selected projects</h3>
+
+        <div class="grid cols-3" id="projectsGrid">
+          <!-- Project 1 -->
+          <article class="card">
+            <img src="images/project1.jpg" alt="Coffee shop landing" class="project-img">
+            <h3>Velvet Bean | Cafe</h3>
+            <p>Menu, booking, and Instagram-friendly gallery. Fast mobile ordering experience.</p>
+            <div class="proj-row" style="margin-top:12px">
+              <small style="color:var(--muted)">HTML • CSS • Firebase</small>
+              <div>
+                <a class="view-btn" href="Elevate/landing-page.html" target="_blank">View Project</a>
+                <button class="view-btn primary" onclick="openContact()">Get a Demo</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 2 -->
+          <article class="card">
+            <img src="images/project2.jpg" alt="Designer portfolio" class="project-img">
+            <h3>Portfolio — Studio Ray</h3>
+            <p>Minimal portfolio with case studies and contact CTA to book services.</p>
+            <div class="proj-row" style="margin-top:12px">
+              <small style="color:var(--muted)">HTML • JS • PWA</small>
+              <div>
+                <a class="view-btn" href="#" target="_blank">View Project</a>
+                <button class="view-btn primary" onclick="openContact()">Get a Demo</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 3 -->
+          <article class="card">
+            <img src="images/project3.jpg" alt="Startup landing" class="project-img">
+            <h3>Elevate — Student App</h3>
+            <p>productivity app For Students</p>
+            <div class="proj-row" style="margin-top:12px">
+              <small style="color:var(--muted)">HTML • Firebase • UX</small>
+              <div>
+                <a class="view-btn" href="Elevate/landing-page.html" target="_blank">View Project</a>
+                <button class="view-btn primary" onclick="openContact()">Get a Demo</button>
+              </div>
+            </div>
+          </article>
+
+        </div>
       </div>
-    </div>
+    </section>
 
-    <!-- Featured Project (Elevate) -->
-    <div class="portfolio-item">
-      <img src="images/elevate-preview.png" alt="Elevate Preview">
-      <div class="card-content">
-        <h3>📱 Elevate</h3>
-        <p>Gamified student productivity app with AI & Firebase integration.</p>
-        <a href="elevate/landing-page.html" target="_blank" class="view-btn">View Project</a>
+    <!-- SIMPLE CTA -->
+    <section class="section" style="padding-top:8px;padding-bottom:8px">
+      <div style="max-width:var(--max-width);margin:auto;padding:10px 18px;background:var(--glass);border-radius:12px;">
+        <h3 style="font-family:'Playfair Display', serif; font-size:1.1rem; color:#042021">Ready to launch your site?</h3>
+        <p style="color:var(--muted);margin-top:6px">Tell me what you need — I’ll build a demo and show how it converts customers.</p>
+        <div style="margin-top:12px">
+          <button class="btn-primary" onclick="openContact()">Let’s Build Something</button>
+          <a href="#portfolio" class="btn-ghost" style="margin-left:10px">See examples</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+      <small>&copy; 2025 NexaCode — Crafted by Sarthak</small>
+    </footer>
+  </main>
+
+  <!-- Floating quick actions -->
+  <div class="quick-actions" aria-hidden="false">
+    <a class="qa-btn" title="WhatsApp" href="https://wa.me/9922204451" target="_blank" rel="noopener">
+      <i class="fab fa-whatsapp" style="font-size:20px"></i>
+    </a>
+    <a class="qa-btn qa-small" title="Instagram" href="https://instagram.com/_nexa_code" target="_blank" rel="noopener">
+      <i class="fab fa-instagram" style="font-size:18px"></i>
+    </a>
+  </div>
+
+  <!-- CONTACT MODAL -->
+  <div id="modalBackdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal" role="document" aria-labelledby="contactTitle">
+      <button style="float:right;border:none;background:transparent;font-size:18px;cursor:pointer" onclick="closeContact()">✕</button>
+      <h3 id="contactTitle">Let’s build something</h3>
+      <p style="color:var(--muted);margin-top:4px">Tell me about your project — I’ll reply within 24 hours.</p>
+
+      <label for="name">Your name</label>
+      <input id="name" placeholder="John Doe">
+
+      <label for="email">Email or phone</label>
+      <input id="email" placeholder="you@mail.com or +91XXXXXXXXXX">
+
+      <label for="msg">Brief project description</label>
+      <textarea id="msg" rows="5" placeholder="What do you want? Landing page, menu, ordering, etc."></textarea>
+
+      <div style="display:flex; gap:10px; margin-top:12px; justify-content:flex-end;">
+        <button class="btn-ghost" onclick="closeContact()">Cancel</button>
+        <button class="btn-primary" onclick="submitContact()">Send</button>
       </div>
     </div>
   </div>
-</section>
 
+  <script>
+    /* NAV show on scroll */
+    (function(){
+      const header = document.getElementById('siteHeader');
+      let lastScroll = 0;
+      window.addEventListener('scroll', () => {
+        const y = window.scrollY || window.pageYOffset;
+        if (y > 60) header.classList.add('show'); else header.classList.remove('show');
+        lastScroll = y;
+      });
+    })();
 
-  <!-- Featured Project -->
-  <section id="projects" class="featured-project">
-    <h2 style="font-size:2rem; color:#333;">🚀 Featured Project</h2>
-    <div>
-      <img src="images/elevate-preview.png" alt="Elevate Preview">
-      <h3>📱 Elevate</h3>
-      <p>Gamified student productivity app with AI features & Firebase integration.</p>
-      <a href="elevate/landing-page.html" target="_blank">View Project</a>
-    </div>
-  </section>
+    /* CONTACT modal open/close */
+    const modal = document.getElementById('modalBackdrop');
+    function openContact(){ modal.classList.add('open'); modal.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; }
+    function closeContact(){ modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); document.body.style.overflow='auto'; }
+    document.getElementById('openContact').addEventListener('click', openContact);
+    document.getElementById('openContactAlt').addEventListener('click', openContact);
 
-  <!-- About Section -->
-  <section id="about" class="about">
-    <h2>About Me</h2>
-    <p>Hi, I’m Sarthak, the founder of NexaCode. I specialize in crafting websites that not only look amazing but also convert visitors into customers. With a focus on clean design and seamless functionality, I help businesses make a powerful digital impression.</p>
-  </section>
+    /* Submit contact -> open mailto (simple, no backend) */
+    function submitContact(){
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const msg = document.getElementById('msg').value.trim();
 
-  <!-- Contact Section -->
-  <section id="contact" class="contact">
-    <h2>Get in Touch</h2>
-    <div>
-      <a href="s67641309@gmail.com" class="social-btn">📧 Gmail</a>
-      <a href="https://wa.me/9922204451" target="_blank" class="social-btn">💬 WhatsApp</a>
-      <a href="https://instagram.com/_nexa_code" target="_blank" class="social-btn">📸 Instagram</a>
-    </div>
-  </section>
+      if(!name || !email || !msg){ alert('Please fill all fields'); return; }
 
-  <!-- Footer -->
-  <footer>
-    <p>&copy; 2025 | NexaCode | Built by Sarthak</p>
-  </footer>
+      // Build mailto - adjust your email address below
+      const to = 'your.email@example.com';
+      const subject = encodeURIComponent('NexaCode Inquiry from ' + name);
+      const body = encodeURIComponent(`Name: ${name}\nContact: ${email}\n\nProject:\n${msg}`);
+      const mailto = `mailto:${to}?subject=${subject}&body=${body}`;
 
+      // open mail client
+      window.location.href = mailto;
+      closeContact();
+    }
+
+    /* PORTFOLIO cards: slide-up on scroll (lightweight) */
+    (function(){
+      const cards = Array.from(document.querySelectorAll('.card'));
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if(e.isIntersecting) e.target.classList.add('visible');
+        });
+      }, {threshold:0.12});
+      cards.forEach(c => io.observe(c));
+    })();
+
+    /* Small accessibility: close modal with Esc */
+    window.addEventListener('keydown', (e) => {
+      if(e.key === 'Escape') closeContact();
+    });
+  </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
